@@ -11,7 +11,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ParameterMapConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ParameterMapConverter;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.data.annotation.CreatedDate;

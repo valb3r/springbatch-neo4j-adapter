@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters;
+package com.github.valb3r.springbatch.adapters.neo4j.dao.converters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j;
+package com.github.valb3r.springbatch.adapters.neo4j.dao;
 
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.MappingTarget;

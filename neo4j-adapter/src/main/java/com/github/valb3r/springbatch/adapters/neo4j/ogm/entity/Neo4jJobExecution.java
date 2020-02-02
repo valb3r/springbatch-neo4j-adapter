@@ -1,9 +1,9 @@
 package com.github.valb3r.springbatch.adapters.neo4j.ogm.entity;
 
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.CycleAvoidingMappingContext;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ExecutionContextConverter;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ExitStatusConverter;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ParametersConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.CycleAvoidingMappingContext;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ExecutionContextConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ExitStatusConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ParametersConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,12 +57,18 @@ public class Neo4jJobExecution {
     @Convert(ParametersConverter.class)
     private JobParameters jobParameters;
 
+    @Builder.Default
     private BatchStatus status = BatchStatus.STARTING;
-    private Date startTime = null;
-    private Date createTime = new Date(System.currentTimeMillis());
-    private Date endTime = null;
-    private Date lastUpdated = null;
 
+    private Date startTime;
+
+    @Builder.Default
+    private Date createTime = new Date(System.currentTimeMillis());
+
+    private Date endTime;
+    private Date lastUpdated;
+
+    @Builder.Default
     @Convert(ExitStatusConverter.class)
     private ExitStatus exitStatus = ExitStatus.UNKNOWN;
 

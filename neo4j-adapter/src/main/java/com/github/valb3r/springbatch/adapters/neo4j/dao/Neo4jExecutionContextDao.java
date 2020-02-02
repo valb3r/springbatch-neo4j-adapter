@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j;
+package com.github.valb3r.springbatch.adapters.neo4j.dao;
 
 import com.github.valb3r.springbatch.adapters.neo4j.ogm.repository.Neo4jJobExecutionRepository;
 import com.github.valb3r.springbatch.adapters.neo4j.ogm.repository.Neo4jStepExecutionRepository;

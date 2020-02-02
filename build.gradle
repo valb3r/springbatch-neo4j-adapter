@@ -7,6 +7,7 @@ buildscript {
                 mockito             : "3.2.4",
                 assertJ             : "3.14.0",
                 ogmCore             : "3.2.4",
+                neo4jEmbedded       : "3.2.8",
                 boltNativeTypes     : "3.2.5",
                 slf4j               : "1.7.29",
                 lombok              : "1.18.10",

@@ -1,9 +1,9 @@
 package com.github.valb3r.springbatch.adapters.neo4j.config;
 
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.Neo4jExecutionContextDao;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.Neo4jJobExecutionDao;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.Neo4jJobInstanceDao;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.Neo4jStepExecutionDao;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.Neo4jExecutionContextDao;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.Neo4jJobExecutionDao;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.Neo4jJobInstanceDao;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.Neo4jStepExecutionDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -25,7 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 })
 @ComponentScan(
     basePackages = {
-        "com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j",
+        "com.github.valb3r.springbatch.adapters.neo4j.dao",
         "com.github.valb3r.springbatch.adapters.neo4j.ogm"
     }
 )

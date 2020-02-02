@@ -1,7 +1,7 @@
 package com.github.valb3r.springbatch.adapters.neo4j.ogm.entity;
 
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.CycleAvoidingMappingContext;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ExecutionContextConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.CycleAvoidingMappingContext;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ExecutionContextConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.neo4j.converters.ExitStatusConverter;
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ExitStatusConverter;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -25,7 +25,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sun.awt.X11.XBaseWindow.PARENT;
+import static com.github.valb3r.springbatch.adapters.neo4j.ogm.BatchRelationshipConst.PARENT;
+
 
 @Getter
 @Setter
@@ -42,18 +43,25 @@ public class Neo4jStepExecution {
     private Long id;
     
     private String stepName;
-    private BatchStatus status = BatchStatus.STARTING;
-    private int readCount = 0;
-    private int writeCount = 0;
-    private int commitCount = 0;
-    private int rollbackCount = 0;
-    private int readSkipCount = 0;
-    private int processSkipCount = 0;
-    private int writeSkipCount = 0;
-    private Date startTime = new Date(System.currentTimeMillis());
-    private Date endTime = null;
-    private Date lastUpdated = null;
 
+    @Builder.Default
+    private BatchStatus status = BatchStatus.STARTING;
+
+    private int readCount;
+    private int writeCount;
+    private int commitCount;
+    private int rollbackCount;
+    private int readSkipCount;
+    private int processSkipCount;
+    private int writeSkipCount;
+
+    @Builder.Default
+    private Date startTime = new Date(System.currentTimeMillis());
+
+    private Date endTime;
+    private Date lastUpdated;
+
+    @Builder.Default
     @Convert(ExitStatusConverter.class)
     private ExitStatus exitStatus = ExitStatus.EXECUTING;
 
