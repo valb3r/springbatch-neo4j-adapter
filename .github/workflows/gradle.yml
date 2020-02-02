@@ -17,11 +17,14 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build
-    - name: Send artifacts to BinTray
-      on:
-        push:
-          tags:
-            - 'v*'
+
+  publish:
+
+    needs: build
+
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps: Send artifacts to BinTray
+      name:
       env:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
