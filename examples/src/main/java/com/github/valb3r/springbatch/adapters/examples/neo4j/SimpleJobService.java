@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+// BEGIN_SNIPPET:Execute simple batch job
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -43,3 +44,4 @@ public class SimpleJobService {
         job.execute(exec);
     }
 }
+// END_SNIPPET

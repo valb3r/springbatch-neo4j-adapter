@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 
+// BEGIN_SNIPPET:Enable Neo4j adapter
 @EnableBatchProcessing
 @SpringBootApplication(
     // Spring-Batch includes this by default, disabling them
@@ -22,3 +23,4 @@ public class ExampleApplication {
         SpringApplication.run(ExampleApplication.class);
     }
 }
+// END_SNIPPET

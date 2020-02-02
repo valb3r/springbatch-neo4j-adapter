@@ -38,7 +38,7 @@ public interface Neo4jJobInstanceRepository extends CrudRepository<Neo4jJobInsta
         @Param("count") int count
     );
 
-    @Query("MATCH (i:Neo4jJobInstance) WHERE i.jobName = $jobName RETURN i " +
+    @Query("MATCH (i:Neo4jJobInstance) RETURN i.jobName " +
         "ORDER BY i.jobName DESC")
     List<String> allNames();
 
