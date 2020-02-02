@@ -5,6 +5,26 @@
 This is Spring Batch adapter for Neo4j database. It allows Spring Batch to persist its metadata directly 
 in Neo4j so that no RDBMS/SQL database is needed.
 
+# Importing it to your project
+
+## Gradle
+
+```groovy
+repositories {
+    maven {
+        url  "https://dl.bintray.com/valb3r/maven" 
+    }
+}
+
+dependencies {
+    implementation 'com.github.valb3r.springbatch.adapters:neo4j-adapter:0.1'
+}
+```
+
+## Maven
+
+See [bintray](https://bintray.com/valb3r/maven/neo4j-adapter) for details.
+
 # Examples
 
 All examples can be found inside [examples](examples) folder.
