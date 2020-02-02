@@ -16,4 +16,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew clean build
+    - name: Send artifacts to BinTray
+      run: ./gradlew bintrayUpload -PbintrayUser=${{ BINTRAY_USER }} -PbintrayKey=${{ BINTRAY_API_KEY }} -PdryRun=true
