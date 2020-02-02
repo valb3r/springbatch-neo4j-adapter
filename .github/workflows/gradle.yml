@@ -19,6 +19,6 @@ jobs:
       run: ./gradlew clean build
     - name: Send artifacts to BinTray
       env:
-        bintrayUser: ${{ BINTRAY_USER }}
-        bintrayApiKey: ${{ BINTRAY_API_KEY }}
-      run: ./gradlew bintrayUpload -PbintrayUser=$bintrayUser -PbintrayKey=$bintrayApiKey -PdryRun=true
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+      run: ./gradlew bintrayUpload -PbintrayUser="$BINTRAY_USER" -PbintrayKey="$BINTRAY_API_KEY" -PdryRun=true
