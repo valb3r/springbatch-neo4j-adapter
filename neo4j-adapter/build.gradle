@@ -1,5 +1,5 @@
 group 'com.github.valb3r.springbatch.adapters'
-version '0.1-SNAPSHOT'
+version '0.1'
 description = 'Neo4j-OGM Spring Batch adapter'
 
 buildscript {
@@ -58,7 +58,7 @@ publish {
     userOrg = 'valb3r'
     groupId = 'com.github.valb3r.springbatch.adapters'
     artifactId = 'neo4j-adapter'
-    publishVersion = '0.1-SNAPSHOT'
+    publishVersion = '0.1'
     desc = 'Spring-batch persistence layer adapter for Neo4j graph database'
     website = 'https://github.com/valb3r/springbatch-neo4j-adapter'
 }
