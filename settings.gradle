@@ -1,0 +1,5 @@
+rootProject.name = 'neo4j-springbatch-adapter'
+
+include 'neo4j-adapter'
+
+project(":neo4j-adapter").projectDir = file("neo4j-adapter")
