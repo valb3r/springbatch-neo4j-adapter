@@ -3,6 +3,7 @@ buildscript {
         versions = [
                 springBoot          : "2.2.2.RELEASE",
                 dependencyManagement: "1.0.8.RELEASE",
+                bintrayRelease      : "0.9.2",
                 junit               : "5.5.2",
                 mockito             : "3.2.4",
                 assertJ             : "3.14.0",
