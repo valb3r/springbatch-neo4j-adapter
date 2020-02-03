@@ -11,9 +11,7 @@ in Neo4j so that no RDBMS/SQL database is needed.
 
 ```groovy
 repositories {
-    maven {
-        url  "https://dl.bintray.com/valb3r/maven" 
-    }
+    jcenter()
 }
 
 dependencies {
