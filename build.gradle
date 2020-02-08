@@ -31,8 +31,8 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'java'
 
 idea {
     project {
@@ -46,8 +46,25 @@ idea {
     }
 }
 
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+}
+
 subprojects {
     tasks.withType(Test) {
         useJUnitPlatform()
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
     }
 }

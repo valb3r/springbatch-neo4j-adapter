@@ -51,6 +51,7 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     }
 
     @Override
+    @Transactional
     public StepExecution getLastStepExecution(JobInstance jobInstance, String stepName) {
         List<Neo4jStepExecution> executions = stepExecs.findLastStepExecution(jobInstance.getInstanceId(), stepName);
 
