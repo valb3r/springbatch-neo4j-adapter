@@ -1,4 +1,6 @@
 ![Java CI](https://github.com/valb3r/springbatch-neo4j-adapter/workflows/Java%20CI/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter)
+
 
 # Purpose
 
@@ -17,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.valb3r.springbatch.adapters:neo4j-adapter:0.1'
+    implementation 'com.github.valb3r.springbatch.adapters:neo4j-adapter:0.1.1'
 }
 ```
 
@@ -43,7 +45,7 @@ Import `neo4j-adapter`:
  <dependency>
     <groupId>com.github.valb3r.springbatch.adapters</groupId>
     <artifactId>neo4j-adapter</artifactId>
-    <version>0.1</version>
+    <version>0.1.1</version>
 </dependency>
 
 ```
