@@ -2,8 +2,10 @@
 
 # Purpose
 
-This is Spring Batch adapter for Neo4j database. It allows Spring Batch to persist its metadata directly 
-in Neo4j so that no RDBMS/SQL database is needed.
+By default, Spring Batch provides Neo4jItemReader and Neo4jItemWriter, but it lacks out-of-the-box adapter 
+to persist its metadata in Neo4j. This project offers ready to use Spring Batch metadata persistence adapter 
+for the Neo4j database. It allows Spring Batch to store its metadata directly in Neo4j so that no RDBMS/SQL database 
+is needed.
 
 # Importing it to your project
 
@@ -22,6 +24,10 @@ dependencies {
 ## Maven
 
 See [bintray](https://bintray.com/valb3r/maven/neo4j-adapter) for details.
+
+# Spring-Batch DB structure on Neo4j
+
+![DB structure](docs/db_structure.png)
 
 # Examples
 
