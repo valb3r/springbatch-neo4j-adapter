@@ -12,17 +12,17 @@ import java.util.Optional;
 @Repository
 public interface Neo4jStepExecutionRepository extends CrudRepository<Neo4jStepExecution, Long> {
 
-    @Query("MATCH (s:Neo4jStepExecution)-[:PARENT]->(e:Neo4jJobExecution) " +
-        "WHERE e.id = $jobExecId AND s.id = $stepExecId " +
-        "RETURN s")
+    @Query("MATCH (s:Neo4jStepExecution)-[r:PARENT]->(e:Neo4jJobExecution) " +
+        "WHERE id(e) = $jobExecId AND id(s) = $stepExecId " +
+        "RETURN s, e, r")
     Optional<Neo4jStepExecution> findBy(
         @Param("jobExecId") long jobExecId,
         @Param("stepExecId") long stepExecId
     );
 
-    @Query("MATCH (s:Neo4jStepExecution)-[:PARENT]->(e:Neo4jJobExecution)-[:PARENT]->(j:Neo4jJobInstance) " +
-        "WHERE j.id = $jobExecInstanceId AND s.stepName = $stepName " +
-        "RETURN s ORDER BY s.startTime DESC, s.id DESC")
+    @Query("MATCH (s:Neo4jStepExecution)-[r1:PARENT]->(e:Neo4jJobExecution)-[r2:PARENT]->(j:Neo4jJobInstance) " +
+        "WHERE id(j) = $jobExecInstanceId AND s.stepName = $stepName " +
+        "RETURN s, e, j, r1, r2 ORDER BY s.startTime DESC, id(s) DESC")
     List<Neo4jStepExecution> findLastStepExecution(
         @Param("jobExecInstanceId") long jobExecInstanceId,
         @Param("stepName") String stepName

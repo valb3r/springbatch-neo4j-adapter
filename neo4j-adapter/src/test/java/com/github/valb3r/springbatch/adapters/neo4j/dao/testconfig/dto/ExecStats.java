@@ -13,6 +13,15 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ExecStats {
 
     @Builder.Default
+    private final AtomicInteger reads = new AtomicInteger();
+
+    @Builder.Default
+    private final AtomicInteger processes = new AtomicInteger();
+
+    @Builder.Default
+    private final AtomicInteger writes = new AtomicInteger();
+
+    @Builder.Default
     private final AtomicInteger taskletsDone = new AtomicInteger();
 
     @Builder.Default
