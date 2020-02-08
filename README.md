@@ -109,7 +109,7 @@ public class SimpleJobService {
                 log.info("STEP ONE!");
                 return null;
             }).build())
-            .start(stepBuilderFactory.get("TWO").tasklet((a, b) -> {
+            .next(stepBuilderFactory.get("TWO").tasklet((a, b) -> {
                 log.info("STEP TWO!");
                 result.set("Step TWO DONE");
                 return null;

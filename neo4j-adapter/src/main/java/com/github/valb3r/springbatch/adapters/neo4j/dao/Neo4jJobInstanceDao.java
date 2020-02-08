@@ -87,6 +87,6 @@ public class Neo4jJobInstanceDao implements JobInstanceDao {
 
     @Override
     public int getJobInstanceCount(String jobName) throws NoSuchJobException {
-        return jobInstances.countAllByJobName();
+        return jobInstances.countAllByJobName(jobName);
     }
 }

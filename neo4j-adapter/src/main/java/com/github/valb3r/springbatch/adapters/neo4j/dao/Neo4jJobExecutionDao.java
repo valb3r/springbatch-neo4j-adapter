@@ -37,7 +37,7 @@ public class Neo4jJobExecutionDao implements JobExecutionDao {
     @Override
     @Transactional
     public List<JobExecution> findJobExecutions(JobInstance jobInstance) {
-        return jobExecs.findAllByJobInstanceId(jobInstance.getId())
+        return jobExecs.findByJobInstanceId(jobInstance.getId())
             .stream()
             .map(it -> Neo4jJobExecution.MAP.map(it, new CycleAvoidingMappingContext()))
             .collect(Collectors.toList());

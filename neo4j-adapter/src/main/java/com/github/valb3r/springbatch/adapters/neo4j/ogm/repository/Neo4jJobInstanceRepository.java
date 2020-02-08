@@ -17,7 +17,7 @@ public interface Neo4jJobInstanceRepository extends CrudRepository<Neo4jJobInsta
     @Query("MATCH (i:Neo4jJobInstance) WHERE i.jobName = $jobName AND i.jobKey = $jobKey RETURN i")
     Optional<Neo4jJobInstance> findBy(@Param("jobName") String jobName, @Param("jobKey") String jobKey);
 
-    @Query("MATCH (e:Neo4jJobExecution)-[:" + PARENT + "]->(i:Neo4jJobInstance) WHERE e.id = $jobExecutionId RETURN i")
+    @Query("MATCH (e:Neo4jJobExecution)-[r:" + PARENT + "]->(i:Neo4jJobInstance) WHERE id(e) = $jobExecutionId RETURN i, e, r")
     Optional<Neo4jJobInstance> findForExecution(@Param("jobExecutionId") long jobExecutionId);
 
     @Query("MATCH (i:Neo4jJobInstance) WHERE i.jobName = $jobName RETURN i " +
@@ -42,5 +42,5 @@ public interface Neo4jJobInstanceRepository extends CrudRepository<Neo4jJobInsta
         "ORDER BY i.jobName DESC")
     List<String> allNames();
 
-    int countAllByJobName();
+    int countAllByJobName(String jobName);
 }
