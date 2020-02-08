@@ -23,7 +23,34 @@ dependencies {
 
 ## Maven
 
-See [bintray](https://bintray.com/valb3r/maven/neo4j-adapter) for details.
+Add `jcenter` repository:
+
+```
+<repositories>
+    <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>jcenter</id>
+        <name>bintray</name>
+        <url>https://jcenter.bintray.com</url>
+    </repository>
+</repositories>
+```
+
+Import `neo4j-adapter`:
+```
+ <dependency>
+    <groupId>com.github.valb3r.springbatch.adapters</groupId>
+    <artifactId>neo4j-adapter</artifactId>
+    <version>0.1</version>
+</dependency>
+
+```
+
+# Artifacts repository:
+
+See `Bintray` repository: [https://bintray.com/valb3r/maven/neo4j-adapter](https://bintray.com/valb3r/maven/neo4j-adapter).
 
 # Spring-Batch DB structure on Neo4j
 
