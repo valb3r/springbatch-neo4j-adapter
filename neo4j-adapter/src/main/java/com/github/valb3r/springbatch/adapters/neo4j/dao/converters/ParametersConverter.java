@@ -22,12 +22,20 @@ public class ParametersConverter implements AttributeConverter<JobParameters, St
     @Override
     @SneakyThrows
     public String toGraphProperty(JobParameters value) {
+        if (null == value) {
+            return null;
+        }
+
         return mapper.writeValueAsString(value.getParameters());
     }
 
     @Override
     @SneakyThrows
     public JobParameters toEntityAttribute(String value) {
+        if (null == value) {
+            return null;
+        }
+
         Map<String, ParseableParam> toParse =
             mapper.readerFor(new TypeReference<Map<String, ParseableParam>>() {}).readValue(value);
         JobParametersBuilder builder = new JobParametersBuilder();

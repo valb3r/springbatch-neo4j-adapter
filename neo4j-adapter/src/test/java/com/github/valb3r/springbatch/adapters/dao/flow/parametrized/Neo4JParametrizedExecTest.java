@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.dao.parametrized;
+package com.github.valb3r.springbatch.adapters.dao.flow.parametrized;
 
 import com.github.valb3r.springbatch.adapters.testconfig.neo4j.Neo4jTestApplication;
 import org.springframework.boot.test.context.SpringBootTest;

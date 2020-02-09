@@ -32,7 +32,7 @@ public class Neo4jJobInstanceDao implements JobInstanceDao {
             Neo4jJobInstance.builder()
                 .jobName(jobName)
                 .jobKey(keyGenerator.generateKey(jobParameters))
-                .parameters(jobParameters.getParameters())
+                .parameters(jobParameters)
                 .build()
         );
 
@@ -58,7 +58,7 @@ public class Neo4jJobInstanceDao implements JobInstanceDao {
     @Override
     @Transactional
     public JobInstance getJobInstance(JobExecution jobExecution) {
-        return jobInstances.findForExecution(jobExecution.getJobId())
+        return jobInstances.findForExecution(jobExecution.getId())
             .map(Neo4jJobInstance.MAP::map)
             .orElse(null);
     }
