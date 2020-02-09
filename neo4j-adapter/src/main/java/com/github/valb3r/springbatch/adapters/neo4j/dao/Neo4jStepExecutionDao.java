@@ -65,6 +65,6 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     @Override
     @Transactional
     public void addStepExecutions(JobExecution jobExecution) {
-        // NOP
+        stepExecs.findStepExecutions(jobExecution.getId()).forEach(Neo4jStepExecution.MAP::map);
     }
 }

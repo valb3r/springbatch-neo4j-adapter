@@ -42,10 +42,10 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
 
-    // Tests:
-
     runtime "org.neo4j:neo4j:${versions.ogmCore}"
 
+    // Tests:
+    testRuntime "com.h2database:h2:${versions.h2}"
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile "org.junit.jupiter:junit-jupiter-engine:${versions.junit}"
     testCompile "org.neo4j:neo4j-ogm-embedded-driver:${versions.neo4jEmbedded}"
