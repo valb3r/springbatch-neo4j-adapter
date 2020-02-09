@@ -82,11 +82,23 @@ public class Neo4jStepExecution {
         StepExecution map(Neo4jStepExecution source, @MappingTarget StepExecution target);
 
         default StepExecution map(Neo4jStepExecution source) {
+            if (null != source.getId()) {
+                return map(
+                    source,
+                    new StepExecution(
+                        source.getStepName(),
+                        Neo4jJobExecution.MAP.map(source.getJobExecution(), new CycleAvoidingMappingContext()),
+                        source.getId()
+                    )
+                );
+            }
+
             return map(
                 source,
                 new StepExecution(
                     source.getStepName(),
-                    Neo4jJobExecution.MAP.map(source.getJobExecution(), new CycleAvoidingMappingContext()))
+                    Neo4jJobExecution.MAP.map(source.getJobExecution(), new CycleAvoidingMappingContext())
+                )
             );
         }
 

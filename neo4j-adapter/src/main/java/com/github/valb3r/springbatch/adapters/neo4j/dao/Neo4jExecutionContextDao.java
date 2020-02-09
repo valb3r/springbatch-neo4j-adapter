@@ -66,7 +66,6 @@ public class Neo4jExecutionContextDao implements ExecutionContextDao {
     @Transactional
     public void saveExecutionContexts(Collection<StepExecution> stepExecutions) {
         stepExecutions.forEach(this::saveExecutionContext);
-
     }
 
     @Override

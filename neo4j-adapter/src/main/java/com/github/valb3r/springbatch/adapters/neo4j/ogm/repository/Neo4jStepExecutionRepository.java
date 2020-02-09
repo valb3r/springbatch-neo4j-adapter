@@ -27,4 +27,9 @@ public interface Neo4jStepExecutionRepository extends CrudRepository<Neo4jStepEx
         @Param("jobExecInstanceId") long jobExecInstanceId,
         @Param("stepName") String stepName
     );
+
+    @Query("MATCH (s:Neo4jStepExecution)-[r1:PARENT]->(e:Neo4jJobExecution)-[r2:PARENT]->(j:Neo4jJobInstance) " +
+        "WHERE id(e) = $jobExecId " +
+        "RETURN s, e, j, r1, r2 ORDER BY id(s)")
+    List<Neo4jStepExecution> findStepExecutions(@Param("jobExecId") long jobExecId);
 }
