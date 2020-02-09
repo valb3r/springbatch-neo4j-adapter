@@ -6,6 +6,7 @@ import com.github.valb3r.springbatch.adapters.testconfig.common.ParametrizedJobP
 import lombok.val;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.repository.dao.JobExecutionDao;
 import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.batch.core.repository.dao.StepExecutionDao;
@@ -59,6 +60,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(executionDao.findJobExecutions(job.getInstance())).hasSize(1);
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
+        assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
@@ -77,6 +79,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(executionDao.findJobExecutions(job.getInstance())).hasSize(1);
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNotNull();
+        assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
@@ -98,6 +101,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(executionDao.findJobExecutions(job.getInstance())).hasSize(1);
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
+        assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
