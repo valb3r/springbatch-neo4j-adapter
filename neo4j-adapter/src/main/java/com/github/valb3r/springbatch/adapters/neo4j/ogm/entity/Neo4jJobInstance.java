@@ -1,5 +1,6 @@
 package com.github.valb3r.springbatch.adapters.neo4j.ogm.entity;
 
+import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ParametersConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,14 +11,17 @@ import org.mapstruct.factory.Mappers;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ParameterMapConverter;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameter;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.Collection;
+
+import static com.github.valb3r.springbatch.adapters.neo4j.ogm.BatchRelationshipConst.PARENT;
+import static org.neo4j.ogm.annotation.Relationship.INCOMING;
 
 @Getter
 @Setter
@@ -36,8 +40,11 @@ public class Neo4jJobInstance {
     private String jobName;
     private String jobKey;
 
-    @Convert(ParameterMapConverter.class)
-    private Map<String, JobParameter> parameters;
+    @Convert(ParametersConverter.class)
+    private JobParameters parameters;
+
+    @Relationship(type = PARENT, direction = INCOMING)
+    private Collection<Neo4jJobExecution> persistentJobExecutions;
 
     @CreatedDate
     private LocalDateTime createdAt;
