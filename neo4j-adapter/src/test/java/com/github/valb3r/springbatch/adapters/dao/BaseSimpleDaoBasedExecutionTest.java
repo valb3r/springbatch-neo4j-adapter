@@ -1,26 +1,28 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao;
+package com.github.valb3r.springbatch.adapters.dao;
 
-import com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider;
+import com.github.valb3r.springbatch.adapters.testconfig.common.DbDropper;
+import com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider;
 import lombok.val;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.repository.dao.JobExecutionDao;
 import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.batch.core.repository.dao.StepExecutionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.CHUNK_ONE;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.CHUNK_TWO;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.DONE;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.ONE_STEP_TASKLET;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.READER_WRITER;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.READS_ONE;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.READS_TWO;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.STEP_ONE;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.STEP_TWO;
-import static com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.JobProvider.TWO_STEPS_TASKLET;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.CHUNK_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.CHUNK_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.DONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.ONE_STEP_TASKLET;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READER_WRITER;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READS_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READS_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.STEP_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.STEP_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.TWO_STEPS_TASKLET;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SimpleExecutionFlowValidationTest extends BaseTest {
+abstract class BaseSimpleDaoBasedExecutionTest {
 
     @Autowired
     private JobProvider provider;
@@ -33,6 +35,14 @@ class SimpleExecutionFlowValidationTest extends BaseTest {
 
     @Autowired
     private StepExecutionDao stepExecutionDao;
+
+    @Autowired
+    private DbDropper dropper;
+
+    @AfterEach
+    void dropDatabase() {
+        dropper.dropDatabase();
+    }
 
     @Test
     void runOneStepTasklet() {

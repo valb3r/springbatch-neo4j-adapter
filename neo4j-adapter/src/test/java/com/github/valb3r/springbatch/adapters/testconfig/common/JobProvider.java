@@ -1,7 +1,7 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig;
+package com.github.valb3r.springbatch.adapters.testconfig.common;
 
-import com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.dto.AssertableJob;
-import com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.dto.ExecStats;
+import com.github.valb3r.springbatch.adapters.testconfig.common.dto.AssertableJob;
+import com.github.valb3r.springbatch.adapters.testconfig.common.dto.ExecStats;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

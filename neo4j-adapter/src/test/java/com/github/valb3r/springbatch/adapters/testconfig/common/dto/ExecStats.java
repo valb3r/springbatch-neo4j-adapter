@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.neo4j.dao.testconfig.dto;
+package com.github.valb3r.springbatch.adapters.testconfig.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
