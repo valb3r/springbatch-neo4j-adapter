@@ -137,20 +137,35 @@ public class JobInstanceDaoTest {
     }
 
     @Test
-    void testGetJobInstances() {
+    void testFindByNameJobInstances() {
         var params = new JobParameters();
         var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        var instance3 = jobInstanceDao.createJobInstance(JOB_NAME, params);
+        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME1, params);
+        var instance3 = jobInstanceDao.createJobInstance(JOB_NAME2, params);
 
         assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 0, 1)).containsOnly(instance1);
+        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME1, 0, 3)).containsOnly(instance2);
+        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME2, 0, 3)).containsOnly(instance3);
         assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 0, 3))
             .containsExactly(instance1, instance2, instance3);
         assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 2, 3)).containsOnly(instance3);
     }
 
     @Test
-    void testGetLatJobInstanceNames() {
+    void testGetByNameJobInstances() {
+        var params = new JobParameters();
+        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params);
+        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME1, params);
+        var instance3 = jobInstanceDao.createJobInstance(JOB_NAME2, params);
+
+        assertThat(jobInstanceDao.getJobInstances(JOB_NAME, 0, 1)).containsOnly(instance1);
+        assertThat(jobInstanceDao.getJobInstances(JOB_NAME1, 0, 3)).containsOnly(instance2);
+        assertThat(jobInstanceDao.getJobInstances(JOB_NAME2, 0, 3)).containsOnly(instance3);
+        assertThat(jobInstanceDao.getJobInstances(JOB_NAME, 0, 3)).containsOnly(instance1);
+    }
+
+    @Test
+    void testGetJobInstanceNames() {
         var params = new JobParameters();
         jobInstanceDao.createJobInstance(JOB_NAME1, params);
         jobInstanceDao.createJobInstance(JOB_NAME2, params);
