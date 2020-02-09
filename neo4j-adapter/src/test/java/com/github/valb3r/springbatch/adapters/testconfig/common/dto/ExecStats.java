@@ -26,4 +26,7 @@ public class ExecStats {
 
     @Builder.Default
     private final AtomicReference<String> result = new AtomicReference<>();
+
+    @Builder.Default
+    private final AtomicReference<String> resultDetails = new AtomicReference<>();
 }

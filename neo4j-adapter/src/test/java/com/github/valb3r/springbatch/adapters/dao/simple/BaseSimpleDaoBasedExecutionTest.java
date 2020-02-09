@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.dao;
+package com.github.valb3r.springbatch.adapters.dao.simple;
 
 import com.github.valb3r.springbatch.adapters.testconfig.common.DbDropper;
 import com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider;
@@ -10,16 +10,16 @@ import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.batch.core.repository.dao.StepExecutionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.CHUNK_ONE;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.CHUNK_TWO;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.DONE;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.ONE_STEP_TASKLET;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READER_WRITER;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READS_ONE;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.READS_TWO;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.STEP_ONE;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.STEP_TWO;
-import static com.github.valb3r.springbatch.adapters.testconfig.common.JobProvider.TWO_STEPS_TASKLET;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.CHUNK_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.CHUNK_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.DONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.ONE_STEP_TASKLET;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.READER_WRITER;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.READS_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.READS_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.STEP_ONE;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.STEP_TWO;
+import static com.github.valb3r.springbatch.adapters.testconfig.common.Const.TWO_STEPS_TASKLET;
 import static org.assertj.core.api.Assertions.assertThat;
 
 abstract class BaseSimpleDaoBasedExecutionTest {

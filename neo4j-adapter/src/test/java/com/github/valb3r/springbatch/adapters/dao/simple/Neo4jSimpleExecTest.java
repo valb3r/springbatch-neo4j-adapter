@@ -1,4 +1,4 @@
-package com.github.valb3r.springbatch.adapters.dao;
+package com.github.valb3r.springbatch.adapters.dao.simple;
 
 import com.github.valb3r.springbatch.adapters.testconfig.neo4j.Neo4jTestApplication;
 import org.springframework.boot.test.context.SpringBootTest;

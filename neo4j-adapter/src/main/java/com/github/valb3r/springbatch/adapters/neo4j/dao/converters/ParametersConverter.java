@@ -2,6 +2,7 @@ package com.github.valb3r.springbatch.adapters.neo4j.dao.converters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -15,7 +16,8 @@ import java.util.Map;
 
 public class ParametersConverter implements AttributeConverter<JobParameters, String> {
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper()
+        .setDateFormat(new StdDateFormat());
 
     @Override
     @SneakyThrows
@@ -34,7 +36,7 @@ public class ParametersConverter implements AttributeConverter<JobParameters, St
             val paramValue = res.getValue();
 
             if (type == JobParameter.ParameterType.DATE) {
-                builder.addDate(key, (Date) paramValue);
+                builder.addDate(key, readDate(paramValue));
             } else if (type == JobParameter.ParameterType.STRING) {
                 builder.addString(key, (String) paramValue);
             } else if (type == JobParameter.ParameterType.DOUBLE) {
@@ -71,6 +73,15 @@ public class ParametersConverter implements AttributeConverter<JobParameters, St
         }
 
         return (Double) param;
+    }
+
+    @SneakyThrows
+    private Date readDate(Object param) {
+        if (null == param) {
+            return null;
+        }
+
+        return mapper.readValue(String.format("[\"%s\"]", param), Date[].class)[0];
     }
 
     @Data
