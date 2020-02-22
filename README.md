@@ -11,7 +11,7 @@ See these open tickets:
  - https://github.com/spring-projects/spring-batch/issues/877
  - https://github.com/spring-projects/spring-batch/issues/1988
 
-This project aims to solve this problem for Neo4. It offers ready to use Spring Batch metadata persistence adapter 
+This project aims to solve this problem for Neo4j. It offers ready to use Spring Batch metadata persistence adapter 
 for the Neo4j database. This adapter allows Spring Batch to store its metadata directly in Neo4j so that 
 no RDBMS/SQL database is needed.
 
