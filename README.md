@@ -4,10 +4,16 @@
 
 # Purpose
 
-By default, Spring Batch provides Neo4jItemReader and Neo4jItemWriter, but it lacks out-of-the-box adapter 
-to persist its metadata in Neo4j. This project offers ready to use Spring Batch metadata persistence adapter 
-for the Neo4j database. It allows Spring Batch to store its metadata directly in Neo4j so that no RDBMS/SQL database 
-is needed.
+Currently, the support of NoSQL databases in Spring-Batch is limited ItemReader/ItemWriter for Neo4j and Mongo.
+This means that to persist state of Spring-Batch job you would need to have RDMBS database even if you don't need it.
+See these open tickets:
+
+ - https://github.com/spring-projects/spring-batch/issues/877
+ - https://github.com/spring-projects/spring-batch/issues/1988
+
+This project aims to solve this problem for Neo4. It offers ready to use Spring Batch metadata persistence adapter 
+for the Neo4j database. This adapter allows Spring Batch to store its metadata directly in Neo4j so that 
+no RDBMS/SQL database is needed.
 
 # Importing it to your project
 
@@ -121,3 +127,39 @@ public class SimpleJobService {
     }
 }
 ```
+
+## Used by
+
+You can see how to configure the adapter and how to use it in 'real' project see this link:
+ - https://github.com/valb3r/time-tracker/ in particular [worker](https://github.com/valb3r/time-tracker/tree/master/worker) submodule.
+
+## Connection configuration
+
+The adapter will reuse `spring.data.neo4j` database connection properties if you provide them in 
+i.e. `application.yml`. 
+For example:
+
+```
+spring:
+  # Run neo4j with docker:
+  # docker run --rm -d --publish=7474:7474 --publish=7687:7687 --volume=$HOME/neo4j/data:/data -e NEO4J_AUTH=neo4j/docker neo4j/neo4j-experimental:4.0.0-rc01
+  data:
+    neo4j:
+      uri: bolt://localhost:7687
+      username: neo4j
+      password: docker
+      open-in-view: false
+      use-native-types: true
+```
+
+All repositories are provided by:
+```
+@EnableNeo4jRepositories(
+    basePackages = {
+        "com.github.valb3r.springbatch.adapters.neo4j.ogm.repository"
+    }
+)
+```
+
+This way, all of them are configured using same spring configuration as you have for your own
+Neo4-repositories.
