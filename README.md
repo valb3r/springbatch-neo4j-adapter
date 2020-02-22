@@ -4,8 +4,8 @@
 
 # Purpose
 
-Currently, the support of NoSQL databases in Spring-Batch is limited ItemReader/ItemWriter for Neo4j and Mongo.
-This means that to persist state of Spring-Batch job you would need to have RDMBS database even if you don't need it.
+Currently, the support of NoSQL databases in Spring-Batch is limited to ItemReader/ItemWriter for Neo4j and Mongo.
+This means that to persist state of Spring-Batch job you would need to have an RDMBS database even if you don't need it.
 See these open tickets:
 
  - https://github.com/spring-projects/spring-batch/issues/877
@@ -161,5 +161,5 @@ All repositories are provided by:
 )
 ```
 
-This way, all of them are configured using same spring configuration as you have for your own
-Neo4-repositories.
+This way, all of them are configured using the same Spring-Data configuration as you have for your own
+Neo4j-repositories.
