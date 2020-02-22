@@ -25,7 +25,7 @@ public class JobInstanceDaoTest {
     private static final String JOB_NAME2 = "The job 2";
 
     @Autowired
-    private JobInstanceDao jobInstanceDao;
+    private JobInstanceDao instanceDao;
 
     @Autowired
     private JobRepository jobRepository;
@@ -41,8 +41,8 @@ public class JobInstanceDaoTest {
     @Test
     void testCreateAndGetJobInstanceNoArgs() {
         var params = new JobParameters();
-        var instance = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
+        var instance = instanceDao.createJobInstance(JOB_NAME, params);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
     }
 
     @Test
@@ -51,15 +51,15 @@ public class JobInstanceDaoTest {
             .addDate("DATE", new Date())
             .addString("TEST", "VAL1")
             .toJobParameters();
-        var instance = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
+        var instance = instanceDao.createJobInstance(JOB_NAME, params);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
 
         params = new JobParametersBuilder()
             .addDate("DATE", new Date())
             .addString("TEST", "VAL2")
             .toJobParameters();
-        instance = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
+        instance = instanceDao.createJobInstance(JOB_NAME, params);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
     }
 
     @Test
@@ -70,8 +70,8 @@ public class JobInstanceDaoTest {
             .addDouble("DOUBLE", 1.0)
             .addString("TEST", "VAL1")
             .toJobParameters();
-        var instance = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
+        var instance = instanceDao.createJobInstance(JOB_NAME, params);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
 
         params = new JobParametersBuilder()
             .addDate("DATE", new Date())
@@ -79,8 +79,8 @@ public class JobInstanceDaoTest {
             .addDouble("DOUBLE", 2.0)
             .addString("TEST", "VAL2")
             .toJobParameters();
-        instance = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
+        instance = instanceDao.createJobInstance(JOB_NAME, params);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params)).isEqualTo(instance);
     }
 
     @Test
@@ -89,16 +89,16 @@ public class JobInstanceDaoTest {
             .addDate("DATE", new Date(), true)
             .addString("TEST", "VAL", true)
             .toJobParameters();
-        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params1);
+        var instance1 = instanceDao.createJobInstance(JOB_NAME, params1);
 
         var params2 = new JobParametersBuilder()
             .addDate("DATE", new Date(), true)
             .addString("TEST", "VAL1", true)
             .toJobParameters();
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME, params2);
+        var instance2 = instanceDao.createJobInstance(JOB_NAME, params2);
 
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params2)).isEqualTo(instance2);
-        assertThat(jobInstanceDao.getJobInstance(JOB_NAME, params1)).isEqualTo(instance1);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params2)).isEqualTo(instance2);
+        assertThat(instanceDao.getJobInstance(JOB_NAME, params1)).isEqualTo(instance1);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class JobInstanceDaoTest {
             .addDouble("DOUBLE", 1.0)
             .addString("TEST", "VAL1")
             .toJobParameters();
-        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params);
+        var instance1 = instanceDao.createJobInstance(JOB_NAME, params);
 
 
         params = new JobParametersBuilder()
@@ -118,69 +118,69 @@ public class JobInstanceDaoTest {
             .addDouble("DOUBLE", 2.0)
             .addString("TEST", "VAL2")
             .toJobParameters();
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME, params);
+        var instance2 = instanceDao.createJobInstance(JOB_NAME, params);
 
-        assertThat(jobInstanceDao.getJobInstance(instance2.getInstanceId())).isEqualTo(instance2);
-        assertThat(jobInstanceDao.getJobInstance(instance1.getInstanceId())).isEqualTo(instance1);
+        assertThat(instanceDao.getJobInstance(instance2.getInstanceId())).isEqualTo(instance2);
+        assertThat(instanceDao.getJobInstance(instance1.getInstanceId())).isEqualTo(instance1);
     }
 
     @Test
     void testCreateAndGetJobInstanceViaExecution() {
-        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, new JobParameters());
+        var instance1 = instanceDao.createJobInstance(JOB_NAME, new JobParameters());
         var execution1 = jobRepository.createJobExecution(instance1, new JobParameters(), "");
 
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME, new JobParameters());
+        var instance2 = instanceDao.createJobInstance(JOB_NAME, new JobParameters());
         var execution2 = jobRepository.createJobExecution(instance2, new JobParameters(), "");
 
-        assertThat(jobInstanceDao.getJobInstance(execution1)).isEqualTo(instance1);
-        assertThat(jobInstanceDao.getJobInstance(execution2)).isEqualTo(instance2);
+        assertThat(instanceDao.getJobInstance(execution1)).isEqualTo(instance1);
+        assertThat(instanceDao.getJobInstance(execution2)).isEqualTo(instance2);
     }
 
     @Test
     void testFindByNameJobInstances() {
         var params = new JobParameters();
-        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME1, params);
-        var instance3 = jobInstanceDao.createJobInstance(JOB_NAME2, params);
+        var instance1 = instanceDao.createJobInstance(JOB_NAME, params);
+        var instance2 = instanceDao.createJobInstance(JOB_NAME1, params);
+        var instance3 = instanceDao.createJobInstance(JOB_NAME2, params);
 
-        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 0, 1)).containsOnly(instance1);
-        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME1, 0, 3)).containsOnly(instance2);
-        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME2, 0, 3)).containsOnly(instance3);
-        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 0, 3))
+        assertThat(instanceDao.findJobInstancesByName(JOB_NAME, 0, 1)).containsOnly(instance1);
+        assertThat(instanceDao.findJobInstancesByName(JOB_NAME1, 0, 3)).containsOnly(instance2);
+        assertThat(instanceDao.findJobInstancesByName(JOB_NAME2, 0, 3)).containsOnly(instance3);
+        assertThat(instanceDao.findJobInstancesByName(JOB_NAME, 0, 3))
             .containsExactly(instance1, instance2, instance3);
-        assertThat(jobInstanceDao.findJobInstancesByName(JOB_NAME, 2, 3)).containsOnly(instance3);
+        assertThat(instanceDao.findJobInstancesByName(JOB_NAME, 2, 3)).containsOnly(instance3);
     }
 
     @Test
     void testGetByNameJobInstances() {
         var params = new JobParameters();
-        var instance1 = jobInstanceDao.createJobInstance(JOB_NAME, params);
-        var instance2 = jobInstanceDao.createJobInstance(JOB_NAME1, params);
-        var instance3 = jobInstanceDao.createJobInstance(JOB_NAME2, params);
+        var instance1 = instanceDao.createJobInstance(JOB_NAME, params);
+        var instance2 = instanceDao.createJobInstance(JOB_NAME1, params);
+        var instance3 = instanceDao.createJobInstance(JOB_NAME2, params);
 
-        assertThat(jobInstanceDao.getJobInstances(JOB_NAME, 0, 1)).containsOnly(instance1);
-        assertThat(jobInstanceDao.getJobInstances(JOB_NAME1, 0, 3)).containsOnly(instance2);
-        assertThat(jobInstanceDao.getJobInstances(JOB_NAME2, 0, 3)).containsOnly(instance3);
-        assertThat(jobInstanceDao.getJobInstances(JOB_NAME, 0, 3)).containsOnly(instance1);
+        assertThat(instanceDao.getJobInstances(JOB_NAME, 0, 1)).containsOnly(instance1);
+        assertThat(instanceDao.getJobInstances(JOB_NAME1, 0, 3)).containsOnly(instance2);
+        assertThat(instanceDao.getJobInstances(JOB_NAME2, 0, 3)).containsOnly(instance3);
+        assertThat(instanceDao.getJobInstances(JOB_NAME, 0, 3)).containsOnly(instance1);
     }
 
     @Test
     void testGetJobInstanceNames() {
         var params = new JobParameters();
-        jobInstanceDao.createJobInstance(JOB_NAME1, params);
-        jobInstanceDao.createJobInstance(JOB_NAME2, params);
+        instanceDao.createJobInstance(JOB_NAME1, params);
+        instanceDao.createJobInstance(JOB_NAME2, params);
 
-        assertThat(jobInstanceDao.getJobNames()).containsExactlyInAnyOrder(JOB_NAME1, JOB_NAME2);
+        assertThat(instanceDao.getJobNames()).containsExactlyInAnyOrder(JOB_NAME1, JOB_NAME2);
     }
 
     @Test
     @SneakyThrows
     void testGetJobInstanceCount() {
         var params = new JobParameters();
-        jobInstanceDao.createJobInstance(JOB_NAME, params);
-        jobInstanceDao.createJobInstance(JOB_NAME, params);
-        jobInstanceDao.createJobInstance(JOB_NAME, params);
+        instanceDao.createJobInstance(JOB_NAME, params);
+        instanceDao.createJobInstance(JOB_NAME, params);
+        instanceDao.createJobInstance(JOB_NAME, params);
 
-        assertThat(jobInstanceDao.getJobInstanceCount(JOB_NAME)).isEqualTo(3);
+        assertThat(instanceDao.getJobInstanceCount(JOB_NAME)).isEqualTo(3);
     }
 }
