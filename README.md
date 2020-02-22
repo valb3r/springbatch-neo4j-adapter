@@ -130,7 +130,7 @@ public class SimpleJobService {
 
 ## Used by
 
-You can see how to configure the adapter and how to use it in 'real' project see this link:
+You can see how to configure the adapter and how to use it in 'real' project here:
  - https://github.com/valb3r/time-tracker/ in particular [worker](https://github.com/valb3r/time-tracker/tree/master/worker) submodule.
 
 ## Connection configuration
