@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.valb3r.springbatch.adapters:neo4j-adapter:0.1.2'
+    implementation 'com.github.valb3r.springbatch.adapters:neo4j-adapter:0.1.3'
 }
 ```
 
@@ -51,7 +51,7 @@ Import `neo4j-adapter`:
  <dependency>
     <groupId>com.github.valb3r.springbatch.adapters</groupId>
     <artifactId>neo4j-adapter</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
 </dependency>
 
 ```
