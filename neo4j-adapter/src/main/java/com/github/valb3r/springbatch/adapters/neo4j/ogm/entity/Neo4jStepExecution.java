@@ -18,6 +18,7 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 import com.github.valb3r.springbatch.adapters.neo4j.dao.converters.ExitStatusConverter;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 
@@ -98,6 +99,27 @@ public class Neo4jStepExecution {
                 new StepExecution(
                     source.getStepName(),
                     Neo4jJobExecution.MAP.map(source.getJobExecution(), new CycleAvoidingMappingContext())
+                )
+            );
+        }
+
+        default StepExecution map(Neo4jStepExecution source, JobExecution execution) {
+            if (null != source.getId()) {
+                return map(
+                    source,
+                    new StepExecution(
+                        source.getStepName(),
+                        execution,
+                        source.getId()
+                    )
+                );
+            }
+
+            return map(
+                source,
+                new StepExecution(
+                    source.getStepName(),
+                    execution
                 )
             );
         }

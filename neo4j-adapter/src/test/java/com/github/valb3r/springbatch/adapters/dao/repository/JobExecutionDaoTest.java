@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = Neo4jTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class JobExecutionDaoTest {
 
-    private static final String JOB_NAME = "JOB_NAME";
+    private static final String JOB_NAME = "The job";
     private static final String PARAM = "LONG_PARAM_VALUE";
     private static final long LONG_PARAM_VAL = 1L;
 
@@ -58,6 +58,7 @@ class JobExecutionDaoTest {
     /**
      * Currently we can't assign id to neo4j entity, so there is impedance between spring-batch and neo4j.
      * Problems are not observed at this moment.
+     * TODO: https://github.com/valb3r/springbatch-neo4j-adapter/issues/13
      */
     @Test
     void saveJobExecution() {
@@ -98,6 +99,7 @@ class JobExecutionDaoTest {
 
     /**
      * Currently, it is required to have step executions in order to find the job execution here.
+     * TODO: https://github.com/valb3r/springbatch-neo4j-adapter/issues/14
      */
     @Test
     void findJobExecutions() {
@@ -115,6 +117,7 @@ class JobExecutionDaoTest {
         assertThat(execDao.findJobExecutions(instance)).hasSize(2);
     }
 
+    // TODO: https://github.com/valb3r/springbatch-neo4j-adapter/issues/14
     @Test
     void getLastJobExecution() {
         JobParameters parameters = new JobParametersBuilder().addLong(PARAM, LONG_PARAM_VAL).toJobParameters();
@@ -131,6 +134,7 @@ class JobExecutionDaoTest {
         assertThat(execDao.getLastJobExecution(instance)).isEqualTo(execToSaveTwo);
     }
 
+    // TODO: https://github.com/valb3r/springbatch-neo4j-adapter/issues/14
     @Test
     void findRunningJobExecutions() {
         JobParameters parameters = new JobParametersBuilder().addLong(PARAM, LONG_PARAM_VAL).toJobParameters();
@@ -163,6 +167,7 @@ class JobExecutionDaoTest {
 
     /**
      * This one is not exactly complete as it does not use version field.
+     * TODO: https://github.com/valb3r/springbatch-neo4j-adapter/issues/14
      */
     @Test
     void synchronizeStatus() {
