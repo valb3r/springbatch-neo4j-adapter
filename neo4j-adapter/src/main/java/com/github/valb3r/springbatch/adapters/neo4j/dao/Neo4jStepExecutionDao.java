@@ -1,9 +1,9 @@
 package com.github.valb3r.springbatch.adapters.neo4j.dao;
 
+import com.github.valb3r.springbatch.adapters.neo4j.ogm.entity.Neo4jStepExecution;
 import com.github.valb3r.springbatch.adapters.neo4j.ogm.repository.Neo4jStepExecutionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import com.github.valb3r.springbatch.adapters.neo4j.ogm.entity.Neo4jStepExecution;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
@@ -46,7 +46,7 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     @Transactional
     public StepExecution getStepExecution(JobExecution jobExecution, Long stepExecutionId) {
         return stepExecs.findBy(jobExecution.getId(), stepExecutionId)
-            .map(Neo4jStepExecution.MAP::map)
+            .map(it -> Neo4jStepExecution.MAP.map(it, jobExecution))
             .orElse(null);
     }
 
@@ -65,6 +65,11 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     @Override
     @Transactional
     public void addStepExecutions(JobExecution jobExecution) {
-        stepExecs.findStepExecutions(jobExecution.getId()).forEach(Neo4jStepExecution.MAP::map);
+        stepExecs.findStepExecutions(jobExecution.getId())
+            .forEach(it -> new StepExecution(
+                it.getStepName(),
+                jobExecution,
+                it.getId())
+            );
     }
 }
