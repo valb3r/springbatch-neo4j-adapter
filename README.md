@@ -13,7 +13,7 @@ See these open tickets:
 
 This project aims to solve this problem for Neo4j. It offers ready to use Spring Batch metadata persistence adapter 
 for the Neo4j database. This adapter allows Spring Batch to store its metadata directly in Neo4j so that 
-no RDBMS/SQL database is needed.
+no RDBMS/SQL database is needed. It is built on top of Spring-Data for entity and repository abstraction and on top of MapStruct to map Spring Batch data structures to Spring-Data Neo4j entities. This way, the amount of boilerplate code to write was kept at the minimum level.
 
 # Importing it to your project
 
