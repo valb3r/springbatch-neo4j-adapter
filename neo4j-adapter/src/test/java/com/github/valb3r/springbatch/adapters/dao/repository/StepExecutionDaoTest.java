@@ -6,6 +6,7 @@ import com.github.valb3r.springbatch.adapters.neo4j.ogm.repository.Neo4jStepExec
 import com.github.valb3r.springbatch.adapters.testconfig.common.DbDropper;
 import com.github.valb3r.springbatch.adapters.testconfig.neo4j.Neo4jTestApplication;
 import lombok.val;
+import lombok.var;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.BatchStatus;
@@ -16,12 +17,15 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.repository.dao.JobExecutionDao;
 import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.batch.core.repository.dao.StepExecutionDao;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(classes = Neo4jTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class StepExecutionDaoTest {
@@ -66,6 +70,16 @@ class StepExecutionDaoTest {
     }
 
     @Test
+    void saveSameStepExecutionThrows() {
+        val execution = execution();
+        val stepExecution = new StepExecution(STEP_NAME, execution);
+        execDao.saveStepExecution(stepExecution);
+
+        assertThatThrownBy(() -> execDao.saveStepExecution(stepExecution))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
     void saveStepExecutions() {
         val execution = execution();
         execDao.saveStepExecutions(Arrays.asList(
@@ -106,6 +120,22 @@ class StepExecutionDaoTest {
     }
 
     @Test
+    void updateOldVersionThrows() {
+        val execution = execution();
+        val stepExec = new StepExecution(STEP_NAME, execution);
+        execDao.saveStepExecution(stepExec);
+
+        stepExec.setCommitCount(99);
+        stepExec.setStatus(BatchStatus.ABANDONED);
+        stepExec.setExitStatus(ExitStatus.FAILED);
+        execDao.updateStepExecution(stepExec);
+        stepExec.setVersion(stepExec.getVersion() - 1);
+
+        assertThatThrownBy(() ->  execDao.updateStepExecution(stepExec))
+                .isInstanceOf(OptimisticLockingFailureException.class);
+    }
+
+    @Test
     void getStepExecution() {
         val execution = execution();
         val stepExec = new StepExecution(STEP_NAME, execution);
@@ -138,7 +168,8 @@ class StepExecutionDaoTest {
 
         assertThat(execution.getStepExecutions()).hasSize(1);
         val step = execution.getStepExecutions().iterator().next();
-        assertThat(step).isEqualToIgnoringGivenFields(stepExec, "startTime", "jobExecution", "executionContext");
+        assertThat(step.getVersion()).isEqualTo(0);
+        assertThat(step).isEqualToIgnoringGivenFields(stepExec, "startTime", "jobExecution", "executionContext", "version");
     }
 
     private JobExecution execution() {

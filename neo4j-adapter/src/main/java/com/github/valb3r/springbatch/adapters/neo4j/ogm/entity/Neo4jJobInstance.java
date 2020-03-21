@@ -12,6 +12,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.Version;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -49,12 +50,16 @@ public class Neo4jJobInstance {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    private Integer version;
+
     @Mapper
     public interface FromBatch {
         Neo4jJobInstance map(JobInstance batch);
 
         default JobInstance map(Neo4jJobInstance batch) {
-            return new JobInstance(batch.getId(), batch.getJobName());
+            JobInstance instance = new JobInstance(batch.getId(), batch.getJobName());
+            instance.setVersion(batch.getVersion());
+            return instance;
         }
     }
 }

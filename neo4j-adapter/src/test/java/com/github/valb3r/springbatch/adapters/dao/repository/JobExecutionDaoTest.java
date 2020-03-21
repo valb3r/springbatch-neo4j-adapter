@@ -21,12 +21,14 @@ import org.springframework.batch.core.repository.dao.StepExecutionDao;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(classes = Neo4jTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class JobExecutionDaoTest {
@@ -75,6 +77,15 @@ class JobExecutionDaoTest {
     }
 
     @Test
+    void saveSameJobExecutionThrows() {
+        var newExec = execution();
+        execDao.saveJobExecution(newExec);
+
+        assertThatThrownBy(() -> execDao.saveJobExecution(newExec))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
     void updateJobExecution() {
         var newExec = execution();
         execDao.saveJobExecution(newExec);
@@ -94,7 +105,23 @@ class JobExecutionDaoTest {
         assertThat(exec.getStatus()).isEqualTo(BatchStatus.ABANDONED);
         assertThat(exec.getExecutionContext()).isEqualTo(params());
         assertThat(exec.getJobParameters()).isEqualToComparingFieldByField(newExec.getJobParameters());
+    }
 
+    @Test
+    void updateOldVersionThrows() {
+        var newExec = execution();
+        execDao.saveJobExecution(newExec);
+
+        ExecutionContext newCtx = new ExecutionContext(params());
+        newExec.setExitStatus(ExitStatus.COMPLETED);
+        newExec.setStatus(BatchStatus.ABANDONED);
+        newExec.setExecutionContext(newCtx);
+
+        execDao.updateJobExecution(newExec);
+        newExec.setVersion(newExec.getVersion() - 1);
+
+        assertThatThrownBy(() ->  execDao.updateJobExecution(newExec))
+                .isInstanceOf(OptimisticLockingFailureException.class);
     }
 
     /**
@@ -179,10 +206,27 @@ class JobExecutionDaoTest {
         execDao.saveJobExecution(execToSave);
 
         execToSave.setStatus(BatchStatus.ABANDONED);
+        execToSave.setVersion(execToSave.getVersion() + 1);
         execDao.synchronizeStatus(execToSave);
 
         assertThat(execDao.getJobExecution(execToSave.getId())).extracting(JobExecution::getStatus)
             .isEqualTo(BatchStatus.ABANDONED);
+    }
+
+    @Test
+    void synchronizeStatusDoesNotUpdateSame() {
+        JobParameters parameters = new JobParametersBuilder().addLong(PARAM, LONG_PARAM_VAL).toJobParameters();
+        val instance = instanceDao.createJobInstance(JOB_NAME, parameters);
+
+        var execToSave = execution(instance);
+        execToSave.setStartTime(new Date());
+        execDao.saveJobExecution(execToSave);
+
+        execToSave.setStatus(BatchStatus.ABANDONED);
+        execDao.synchronizeStatus(execToSave);
+
+        assertThat(execDao.getJobExecution(execToSave.getId())).extracting(JobExecution::getStatus)
+                .isEqualTo(BatchStatus.STARTING);
     }
 
     private JobExecution execution(JobInstance instance) {

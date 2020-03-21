@@ -53,7 +53,7 @@ public class ExecutionContextDaoTest {
     @Test
     void getExecutionContextFromJobExecution() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
 
         assertThat(ctxDao.getExecutionContext(newExec)).isEqualToComparingFieldByField(execCtx());
     }
@@ -61,7 +61,7 @@ public class ExecutionContextDaoTest {
     @Test
     void getExecutionContextFromStepExecution() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
         var stepExec = new StepExecution(STEP_NAME, newExec);
         stepExec.setExecutionContext(stepExecCtx());
         stepExecDao.saveStepExecution(stepExec);
@@ -72,7 +72,7 @@ public class ExecutionContextDaoTest {
     @Test
     void saveExecutionContextForJobExecution() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
 
         newExec.setExecutionContext(newExecCtx());
         ctxDao.saveExecutionContext(newExec);
@@ -83,7 +83,7 @@ public class ExecutionContextDaoTest {
     @Test
     void saveExecutionContextForStepExecution() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
         var stepExec = new StepExecution(STEP_NAME, newExec);
         stepExec.setExecutionContext(stepExecCtx());
         stepExecDao.saveStepExecution(stepExec);
@@ -97,7 +97,7 @@ public class ExecutionContextDaoTest {
     @Test
     void saveExecutionContexts() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
         var stepExecOne = new StepExecution(STEP_NAME, newExec);
         stepExecDao.saveStepExecution(stepExecOne);
         var stepExecTwo = new StepExecution(STEP_NAME_OTHER, newExec);
@@ -115,7 +115,7 @@ public class ExecutionContextDaoTest {
     void updateExecutionContextForJobExecution() {
         var newExec = execution();
         newExec.setExecutionContext(execCtx());
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
 
         newExec.setExecutionContext(newExecCtx());
         ctxDao.updateExecutionContext(newExec);
@@ -126,7 +126,7 @@ public class ExecutionContextDaoTest {
     @Test
     void updateExecutionContextForStepExecution() {
         var newExec = execution();
-        jobExecDao.saveJobExecution(newExec);
+        jobExecDao.updateJobExecution(newExec);
         var stepExec = new StepExecution(STEP_NAME, newExec);
         stepExec.setExecutionContext(stepExecCtx());
         stepExecDao.saveStepExecution(stepExec);

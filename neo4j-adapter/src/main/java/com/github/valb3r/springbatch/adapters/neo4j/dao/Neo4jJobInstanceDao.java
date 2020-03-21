@@ -33,6 +33,7 @@ public class Neo4jJobInstanceDao implements JobInstanceDao {
                 .jobName(jobName)
                 .jobKey(keyGenerator.generateKey(jobParameters))
                 .parameters(jobParameters)
+                .version(0)
                 .build()
         );
 

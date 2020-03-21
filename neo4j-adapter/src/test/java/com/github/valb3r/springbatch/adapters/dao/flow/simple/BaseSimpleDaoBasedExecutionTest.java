@@ -57,6 +57,7 @@ abstract class BaseSimpleDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
     }
 
     @Test
@@ -71,6 +72,7 @@ abstract class BaseSimpleDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNotNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
     }
 
     @Test
@@ -88,6 +90,7 @@ abstract class BaseSimpleDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
     }
 
     @Test
@@ -105,5 +108,6 @@ abstract class BaseSimpleDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_ONE)).isNotNull();
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNotNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
     }
 }

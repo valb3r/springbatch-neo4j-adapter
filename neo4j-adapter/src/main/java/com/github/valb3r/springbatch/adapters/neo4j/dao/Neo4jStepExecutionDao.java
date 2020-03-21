@@ -8,6 +8,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.repository.dao.StepExecutionDao;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,30 +25,48 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     @Override
     @Transactional
     public void saveStepExecution(StepExecution stepExecution) {
+        if (null != stepExecution.getId() && stepExecs.existsById(stepExecution.getId())) {
+            throw new IllegalStateException("Step execution exists: " + stepExecution.getId());
+        }
+
+        stepExecution.incrementVersion();
         val exec = stepExecs.save(Neo4jStepExecution.MAP.map(stepExecution));
         stepExecution.setId(exec.getId());
+        stepExecution.setVersion(exec.getVersion());
     }
 
     @Override
     @Transactional
     public void saveStepExecutions(Collection<StepExecution> stepExecutions) {
         stepExecs.saveAll(
-            stepExecutions.stream().map(Neo4jStepExecution.MAP::map).collect(Collectors.toList())
+                stepExecutions.stream().map(Neo4jStepExecution.MAP::map).collect(Collectors.toList())
         );
     }
 
     @Override
     @Transactional
     public void updateStepExecution(StepExecution stepExecution) {
-        saveStepExecution(stepExecution);
+        val exec = stepExecs.findById(stepExecution.getId())
+                .orElseThrow(() -> new IllegalStateException("Step execution does not exist: " + stepExecution.getId()));
+
+        if (!exec.getVersion().equals(stepExecution.getVersion())) {
+            throw new OptimisticLockingFailureException("Attempt to update job execution id="
+                    + stepExecution.getId() + " with wrong version (" + stepExecution.getVersion()
+                    + "), where current version is " + exec.getVersion());
+        }
+
+        stepExecution.incrementVersion();
+        val updated = stepExecs.save(Neo4jStepExecution.MAP.map(stepExecution));
+        stepExecution.setId(updated.getId());
+        stepExecution.setVersion(updated.getVersion());
     }
 
     @Override
     @Transactional
     public StepExecution getStepExecution(JobExecution jobExecution, Long stepExecutionId) {
         return stepExecs.findBy(jobExecution.getId(), stepExecutionId)
-            .map(it -> Neo4jStepExecution.MAP.map(it, jobExecution))
-            .orElse(null);
+                .map(it -> Neo4jStepExecution.MAP.map(it, jobExecution))
+                .orElse(null);
     }
 
     @Override
@@ -66,10 +85,13 @@ public class Neo4jStepExecutionDao implements StepExecutionDao {
     @Transactional
     public void addStepExecutions(JobExecution jobExecution) {
         stepExecs.findStepExecutions(jobExecution.getId())
-            .forEach(it -> new StepExecution(
-                it.getStepName(),
-                jobExecution,
-                it.getId())
-            );
+                .forEach(it -> {
+                            val exec = new StepExecution(
+                                    it.getStepName(),
+                                    jobExecution,
+                                    it.getId());
+                            exec.setVersion(it.getVersion());
+                        }
+                );
     }
 }

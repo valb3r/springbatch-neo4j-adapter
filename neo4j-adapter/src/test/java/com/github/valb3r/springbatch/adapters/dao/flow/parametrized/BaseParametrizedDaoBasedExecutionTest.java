@@ -62,6 +62,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
         assertThat(job.getExecution().getJobParameters().getLong(TWO)).isEqualTo(2L);
@@ -81,6 +82,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNotNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
         assertThat(job.getExecution().getJobParameters().getLong(TWO)).isEqualTo(2L);
@@ -103,6 +105,7 @@ abstract class BaseParametrizedDaoBasedExecutionTest {
         assertThat(stepExecutionDao.getLastStepExecution(job.getInstance(), STEP_TWO)).isNull();
         assertThat(job.getExecution().getStatus()).isEqualTo(BatchStatus.COMPLETED);
 
+        assertThat(job.getExecution().getVersion()).isEqualTo(2);
         assertThat(job.getExecution().getJobParameters().getDate(TODAY)).isEqualTo(EXPECTED_DATE);
         assertThat(job.getExecution().getJobParameters().getDouble(ONE)).isEqualTo(1.0);
         assertThat(job.getExecution().getJobParameters().getLong(TWO)).isEqualTo(2L);
