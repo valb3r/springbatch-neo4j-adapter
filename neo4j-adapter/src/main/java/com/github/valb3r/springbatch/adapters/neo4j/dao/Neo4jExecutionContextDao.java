@@ -48,7 +48,8 @@ public class Neo4jExecutionContextDao implements ExecutionContextDao {
             serializeContext(jobExecution.getExecutionContext())
         );
 
-        jobExecs.save(execution);
+        val result = jobExecs.save(execution);
+        jobExecution.setVersion(result.getVersion().intValue());
     }
 
     @Override
@@ -59,7 +60,8 @@ public class Neo4jExecutionContextDao implements ExecutionContextDao {
             serializeContext(stepExecution.getExecutionContext())
         );
 
-        stepExecs.save(execution);
+        val result = stepExecs.save(execution);
+        stepExecution.setVersion(result.getVersion().intValue());
     }
 
     @Override

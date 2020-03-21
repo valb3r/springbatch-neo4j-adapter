@@ -138,7 +138,8 @@ class StepExecutionDaoTest {
 
         assertThat(execution.getStepExecutions()).hasSize(1);
         val step = execution.getStepExecutions().iterator().next();
-        assertThat(step).isEqualToIgnoringGivenFields(stepExec, "startTime", "jobExecution", "executionContext");
+        assertThat(step.getVersion()).isEqualTo(0);
+        assertThat(step).isEqualToIgnoringGivenFields(stepExec, "startTime", "jobExecution", "executionContext", "version");
     }
 
     private JobExecution execution() {

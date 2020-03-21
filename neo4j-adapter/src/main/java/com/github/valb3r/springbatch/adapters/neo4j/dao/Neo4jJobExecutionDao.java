@@ -7,6 +7,7 @@ import lombok.val;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.repository.dao.JobExecutionDao;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,11 @@ public class Neo4jJobExecutionDao implements JobExecutionDao {
     @Override
     @Transactional
     public void saveJobExecution(JobExecution jobExecution) {
+        if (null != jobExecution.getId() && jobExecs.existsById(jobExecution.getId())) {
+            throw new IllegalStateException("Job execution exists: " + jobExecution.getId());
+        }
+
+        jobExecution.incrementVersion();
         val result = jobExecs.save(Neo4jJobExecution.MAP.map(jobExecution, new CycleAvoidingMappingContext()));
         jobExecution.setId(result.getId());
     }
@@ -31,7 +37,18 @@ public class Neo4jJobExecutionDao implements JobExecutionDao {
     @Override
     @Transactional
     public void updateJobExecution(JobExecution jobExecution) {
-        jobExecs.save(Neo4jJobExecution.MAP.map(jobExecution, new CycleAvoidingMappingContext()));
+        val exec = jobExecs.findById(jobExecution.getId())
+                .orElseThrow(() -> new IllegalStateException("Job execution does not exist: " + jobExecution.getId()));
+
+        if (!exec.getVersion().equals(jobExecution.getVersion())) {
+            throw new OptimisticLockingFailureException("Attempt to update job execution id="
+                    + jobExecution.getId() + " with wrong version (" + jobExecution.getVersion()
+                    + "), where current version is " + exec.getVersion());
+        }
+
+        jobExecution.incrementVersion();
+        val result = jobExecs.save(Neo4jJobExecution.MAP.map(jobExecution, new CycleAvoidingMappingContext()));
+        jobExecution.setVersion(result.getVersion());
     }
 
     @Override
@@ -71,6 +88,16 @@ public class Neo4jJobExecutionDao implements JobExecutionDao {
     @Override
     @Transactional
     public void synchronizeStatus(JobExecution jobExecution) {
-        saveJobExecution(jobExecution);
+        val exec = jobExecs.findById(jobExecution.getId())
+                .orElseThrow(() -> new IllegalStateException("Job execution does not exist: " + jobExecution.getId()));
+
+        int currentVersion = exec.getVersion();
+        if (currentVersion == jobExecution.getVersion()) {
+            return;
+        }
+
+        exec.setStatus(exec.getStatus().upgradeTo(jobExecution.getStatus()));
+        exec.setVersion(exec.getVersion() + 1);
+        jobExecs.save(exec);
     }
 }

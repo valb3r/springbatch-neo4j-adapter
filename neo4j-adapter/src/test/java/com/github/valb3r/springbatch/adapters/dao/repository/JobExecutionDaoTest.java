@@ -179,6 +179,7 @@ class JobExecutionDaoTest {
         execDao.saveJobExecution(execToSave);
 
         execToSave.setStatus(BatchStatus.ABANDONED);
+        execToSave.setVersion(execToSave.getVersion() + 1);
         execDao.synchronizeStatus(execToSave);
 
         assertThat(execDao.getJobExecution(execToSave.getId())).extracting(JobExecution::getStatus)

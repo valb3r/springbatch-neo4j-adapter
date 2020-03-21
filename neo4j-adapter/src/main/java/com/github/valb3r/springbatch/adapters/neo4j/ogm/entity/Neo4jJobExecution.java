@@ -18,6 +18,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.Version;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
@@ -76,6 +77,8 @@ public class Neo4jJobExecution {
 
     @Convert(ExecutionContextConverter.class)
     private Map<String, Object> executionContext;
+
+    private Integer version;
 
     @Mapper
     public interface FromBatch {
