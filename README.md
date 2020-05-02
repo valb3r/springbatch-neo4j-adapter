@@ -1,11 +1,14 @@
 ![Java CI](https://github.com/valb3r/springbatch-neo4j-adapter/workflows/Java%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter)
 
+# Description
+
+Provides Spring-batch **JobRepository** and related metadata persistence in Neo4J.
 
 # Purpose
 
 Currently, the support of NoSQL databases in Spring-Batch is limited to ItemReader/ItemWriter for Neo4j and Mongo.
-This means that to persist state of Spring-Batch job you would need to have an RDMBS database even if you don't need it.
+This means that to persist state of Spring-Batch job you would need to have an RDMBS database even if you don't need it as there is no `JobRepository` persistence adapter available.
 See these open tickets:
 
  - https://github.com/spring-projects/spring-batch/issues/877
