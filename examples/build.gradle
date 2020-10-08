@@ -1,5 +1,5 @@
 group 'com.github.valb3r.springbatch.adapters.examples'
-version '0.1.4-SNAPSHOT'
+version '0.1.4'
 description = 'Usage examples of Neo4j-OGM Spring Batch adapter'
 
 buildscript {
