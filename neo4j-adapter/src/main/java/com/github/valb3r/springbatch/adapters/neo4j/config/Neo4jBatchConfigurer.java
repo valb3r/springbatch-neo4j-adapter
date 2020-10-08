@@ -54,8 +54,11 @@ public class Neo4jBatchConfigurer implements BatchConfigurer {
     }
 
     @Override
-    public JobLauncher getJobLauncher() {
-        return new SimpleJobLauncher();
+    public JobLauncher getJobLauncher() throws Exception {
+        SimpleJobLauncher launcher = new SimpleJobLauncher();
+        launcher.setJobRepository(getJobRepository());
+        launcher.afterPropertiesSet();
+        return launcher;
     }
 
     @Override
