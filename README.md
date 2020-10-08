@@ -1,5 +1,6 @@
 ![Java CI](https://github.com/valb3r/springbatch-neo4j-adapter/workflows/Java%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/valb3r/springbatch-neo4j-adapter)
+[ ![Download](https://api.bintray.com/packages/valb3r/maven/neo4j-adapter/images/download.svg?version=0.1.4) ](https://bintray.com/valb3r/maven/neo4j-adapter/0.1.4/link)
 
 # Description
 
